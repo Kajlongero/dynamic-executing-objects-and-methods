@@ -1,0 +1,42 @@
+CREATE TABLE Profiles (
+  id SERIAL NOT NULL PRIMARY KEY,
+  first_name VARCHAR(45), 
+  last_name VARCHAR(45), 
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE Users (
+  id SERIAL NOT NULL PRIMARY KEY, 
+  email VARCHAR(90) UNIQUE NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  profile_id INT NOT NULL,
+  CONSTRAINT users_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE Objects (
+  id SERIAL NOT NULL PRIMARY KEY,
+  name VARCHAR(60) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE Methods (
+  id SERIAL NOT NULL PRIMARY KEY,
+  name VARCHAR(60) NOT NULL,
+  object_id INT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  CONSTRAINT methods_object_id_fkey FOREIGN KEY (object_id) REFERENCES objects(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+INSERT INTO objects (name) VALUES ("AuthService");
+INSERT INTO methods (name, object_id) VALUES ("Login", 1), ("Signup", 2);
+
+CREATE TABLE Permissions (
+  id SERIAL NOT NULL PRIMARY KEY,
+  profile_id INT NOT NULL,
+  method_id INT NOT NULL,
+  CONSTRAINT permissions_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES profiles(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT permissions_method_id_fkey FOREIGN KEY (method_id) REFERENCES methods(id) ON UPDATE CASCADE ON DELETE CASCADE
+);

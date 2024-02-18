@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "fetchAllObjectsAndMethods": "SELECT o.id AS ObjectId, o.name AS ObjectName, m.id AS MethodId, m.name AS MethodName FROM objects AS o INNER JOIN methods AS m ON o.id = m.object_id"
+  },
+  "users": {},
+  "auth": {},
+  "objects": {},
+  "methods": {}
+}
