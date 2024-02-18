@@ -1,18 +1,21 @@
 const Express = require("express");
 const cors = require("cors");
-const { executeData, MapInstance } = require("./utils/fetchPermissions");
+const session = require("./middlewares/express.session.middleware");
 const dynamicExecuteMethod = require("./utils/dynamicExecuteMethods");
+const { executeData, MapInstance } = require("./utils/fetchPermissions");
+const { BoomErrorHandler } = require("./middlewares/boom.error.handler");
+const { InternalServerError } = require("./middlewares/internal.error.handler");
 
 (async () => {
   const app = Express();
+
+  app.use(session);
 
   app.use(cors());
   app.use(Express.json());
   app.use(Express.urlencoded({ extended: false }));
 
   await executeData();
-
-  console.log(MapInstance.map);
 
   app.post("/process", async (req, res, next) => {
     try {
@@ -27,6 +30,9 @@ const dynamicExecuteMethod = require("./utils/dynamicExecuteMethods");
       next(e);
     }
   });
+
+  app.use(BoomErrorHandler);
+  app.use(InternalServerError);
 
   app.listen(8000, () => {
     console.log(`App running`);
