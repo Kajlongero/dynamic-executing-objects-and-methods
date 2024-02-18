@@ -1,0 +1,25 @@
+{
+  "name": "login-and-register",
+  "version": "1.0.0",
+  "description": "Login and Register process",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.4",
+    "express": "^4.18.2",
+    "express-session": "^1.18.0",
+    "joi": "^17.12.1",
+    "nodemailer": "^6.9.9",
+    "pg": "^8.11.3"
+  }
+}
