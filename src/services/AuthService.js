@@ -170,7 +170,7 @@ class AuthService {
       secure: true,
       auth: {
         user: nodemailerConfig.MAIL,
-        pass: "uwoi zhpk eqfy jsok",
+        pass: nodemailerConfig.APP_PASSWORD,
       },
     });
 
