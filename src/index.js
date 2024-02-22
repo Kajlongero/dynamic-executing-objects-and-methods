@@ -25,7 +25,7 @@ const { InternalServerError } = require("./middlewares/internal.error.handler");
       const obj = { ...data, params };
       const results = await dynamicExecuteMethod(req, res, obj);
 
-      res.json(results);
+      res.status(200).json(results);
     } catch (e) {
       next(e);
     }

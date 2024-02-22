@@ -11,8 +11,6 @@ class MapComponent {
 
     const map = new Map();
 
-    console.log(data);
-
     data.map(({ objectname, methodname }, index) => {
       map.set(index, `${index}_${objectname}_${methodname}`);
     });

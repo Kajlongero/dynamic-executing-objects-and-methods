@@ -1,9 +1,27 @@
 {
   "permissions": {
-    "fetchAllObjectsAndMethods": "SELECT o.id AS ObjectId, o.name AS ObjectName, m.id AS MethodId, m.name AS MethodName FROM objects AS o INNER JOIN methods AS m ON o.id = m.object_id"
+    "fetchAllObjectsAndMethods": "SELECT o.id AS ObjectId, o.name AS ObjectName, m.id AS MethodId, m.name AS MethodName FROM objects AS o INNER JOIN methods AS m ON o.id = m.object_id",
+    "retrievePermissionsFromUser": "SELECT p.id AS profileId, obj.name AS objectName, me.name AS methodName FROM profiles AS p INNER JOIN permissions as pe ON pe.profile_id = p.id INNER JOIN methods AS me ON me.id = pe.method_id INNER JOIN objects as obj ON obj.id = me.object_id WHERE profile_id = $1"
   },
-  "users": {},
-  "auth": {},
-  "objects": {},
-  "methods": {}
+  "auth": {
+    "getEmail": "SELECT * FROM users WHERE email = $1",
+    "email": "SELECT * FROM users WHERE email = $1",
+    "verifyTokens": "SELECT COUNT(*) FROM auth WHERE user_id = $1",
+    "updateTokenTime": "UPDATE auth SET time_to_request_token = $2 WHERE user_id = $1",
+    "newToken": "INSERT INTO auth (change_password_token, validation_time, user_id) VALUES ($1, $2, $3)",
+    "findUserByToken": "SELECT * FROM auth WHERE user_id = $1 AND change_password_token = $2",
+    "deleteTokens": "DELETE FROM auth WHERE user_id = $1"
+  },
+  "user": {
+    "login": "SELECT u.id AS user_id, p.id AS profile_id, u.email, u.password FROM users AS u INNER JOIN profiles as p ON u.profile_id = p.id WHERE u.email = $1",
+    "signup": "INSERT INTO users (email, password, profile_id) VALUES($1, $2, $3) RETURNING id AS user_id",
+    "getUser": "SELECT * FROM users WHERE id = $1",
+    "updatePassword": "UPDATE users SET password = $2, time_to_request_token = null WHERE id = $1",
+    "updateTokenRequestedCount": "UPDATE users SET token_requested_count = $2 WHERE id = $1"
+  },
+  "profile": {
+    "createProfile": "INSERT INTO profiles (first_name, last_name) VALUES ($1, $2) RETURNING id as profile_id"
+  },
+  "class": {},
+  "objects": {}
 }

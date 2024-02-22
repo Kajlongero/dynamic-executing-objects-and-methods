@@ -4,4 +4,9 @@ const postgresConfig = {
   DATABASE_QUERY_URL: process.env.POSTGRES_URL_QUERY,
 };
 
-module.exports = { postgresConfig };
+const nodemailerConfig = {
+  APP_PASSWORD: process.env.APP_PASSWORD,
+  MAIL: process.env.MAIL,
+};
+
+module.exports = { postgresConfig, nodemailerConfig };
